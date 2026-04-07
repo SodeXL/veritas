@@ -6,6 +6,7 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
+  Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRoute, useNavigation, RouteProp } from "@react-navigation/native";
@@ -23,7 +24,12 @@ import { CardBack } from "../components/CardBack";
 import { TierTabs } from "../components/TierTabs";
 import { Card, ResponseTier } from "../types/card";
 import cardsData from "../data/cards.json";
-import * as Haptics from "expo-haptics";
+
+// Conditionally import haptics only on native platforms
+let Haptics: any = null;
+if (Platform.OS !== 'web') {
+  Haptics = require("expo-haptics");
+}
 
 const cards = cardsData as Card[];
 
@@ -98,19 +104,25 @@ export const CardViewerScreen: React.FC = () => {
   });
 
   const handleFlip = () => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    if (Haptics) {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    }
     setIsFlipped(!isFlipped);
   };
 
   const handleMastered = () => {
     if (!isCompleted) {
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      if (Haptics) {
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      }
       completeCard(card);
     }
   };
 
   const handleToggleFavorite = () => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    if (Haptics) {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    }
     toggleFavorite(card.id);
   };
 
