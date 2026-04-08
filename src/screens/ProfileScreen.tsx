@@ -8,6 +8,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { colors, getCategoryColor } from "../theme/colors";
 import { TopBar } from "../components/TopBar";
 import { CardListItem } from "../components/CardListItem";
+import { RemoveAdsButton } from "../components/RemoveAdsButton";
 import { useGameState } from "../store/useGameState";
 import { getLevel } from "../utils/gamification";
 import { CATEGORIES } from "../data/categories";
@@ -164,6 +165,10 @@ export const ProfileScreen: React.FC = () => {
             </View>
           </>
         )}
+
+        {/* Remove Ads / Premium */}
+        <Text style={styles.sectionTitle}>Support Veritas</Text>
+        <RemoveAdsButton />
 
         {/* Reset Progress Button */}
         <TouchableOpacity style={styles.resetButton} onPress={handleResetProgress}>

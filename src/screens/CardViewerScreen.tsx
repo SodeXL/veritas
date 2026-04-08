@@ -19,6 +19,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { colors } from "../theme/colors";
 import { useGameState } from "../store/useGameState";
+import { showInterstitialIfNeeded } from "../utils/interstitialAd";
 import { CardFront } from "../components/CardFront";
 import { CardBack } from "../components/CardBack";
 import { TierTabs } from "../components/TierTabs";
@@ -51,8 +52,10 @@ export const CardViewerScreen: React.FC = () => {
 
   const completed = useGameState((state) => state.completed);
   const favorites = useGameState((state) => state.favorites);
+  const isPremium = useGameState((state) => state.isPremium);
   const completeCard = useGameState((state) => state.completeCard);
   const toggleFavorite = useGameState((state) => state.toggleFavorite);
+  const shouldShowInterstitial = useGameState((state) => state.shouldShowInterstitial);
 
   const card = useMemo(() => cards.find((c) => c.id === cardId), [cardId]);
 
@@ -116,6 +119,12 @@ export const CardViewerScreen: React.FC = () => {
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       }
       completeCard(card);
+      // Show interstitial after mastering (fires when navigating away, not on this screen)
+      const shouldShow = shouldShowInterstitial();
+      if (shouldShow) {
+        // Small delay so user sees the "MASTERED" confirmation before ad appears
+        setTimeout(() => showInterstitialIfNeeded(true, isPremium), 800);
+      }
     }
   };
 

@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "veritas",
+    "name": "Veritas",
     "slug": "veritas",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -8,14 +8,17 @@
     "userInterfaceStyle": "dark",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-icon.png",
-      "resizeMode": "contain",
+      "image": "./assets/splash.png",
+      "resizeMode": "cover",
       "backgroundColor": "#12100D"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.rumblehold.veritas",
+      "icon": "./assets/icon.png"
     },
     "android": {
+      "package": "com.rumblehold.veritas",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#12100D"
@@ -27,7 +30,17 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-font"
+      "expo-font",
+      [
+        "react-native-google-mobile-ads",
+        {
+          "android_app_id": "ca-app-pub-3940256099942544~3347511713",
+          "ios_app_id": "ca-app-pub-3940256099942544~1458002511",
+          "user_tracking_usage_description": "This identifier will be used to deliver personalized ads to you.",
+          "sk_ad_network_items": []
+        }
+      ],
+      "react-native-purchases"
     ]
   }
 }

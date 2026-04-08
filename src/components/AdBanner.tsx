@@ -1,78 +1,45 @@
 // src/components/AdBanner.tsx
 //
-// Wraps AdMob banner ad. Hides when user is premium.
-// Install: npm install react-native-google-mobile-ads
-//
-// SETUP REQUIRED:
-// 1. Create AdMob account at https://admob.google.com
-// 2. Create app + ad units (banner + interstitial)
-// 3. Add AdMob app ID to app.json:
-//    "react-native-google-mobile-ads": {
-//      "android_app_id": "ca-app-pub-xxxxx~xxxxx",
-//      "ios_app_id": "ca-app-pub-xxxxx~xxxxx"
-//    }
-// 4. Replace test ad unit IDs below with real ones
+// Anchored adaptive banner ad. Hides on web and for premium users.
+// Real ad unit IDs go in the constants below — swap at store submission.
 
 import React from "react";
 import { View, Platform } from "react-native";
 import { useGameState } from "../store/useGameState";
 
-// TODO: Uncomment when react-native-google-mobile-ads is installed
-// import { BannerAd, BannerAdSize, TestIds } from "react-native-google-mobile-ads";
+// Dynamic require — react-native-google-mobile-ads has no web support
+let BannerAd: any = null;
+let BannerAdSize: any = null;
+let TestIds: any = null;
 
-const AD_UNIT_IDS = {
-  banner: {
-    ios: "ca-app-pub-xxxxx/xxxxx", // Replace with real ID
-    android: "ca-app-pub-xxxxx/xxxxx", // Replace with real ID
-  },
-  interstitial: {
-    ios: "ca-app-pub-xxxxx/xxxxx",
-    android: "ca-app-pub-xxxxx/xxxxx",
-  },
+if (Platform.OS !== "web") {
+  const ads = require("react-native-google-mobile-ads");
+  BannerAd = ads.BannerAd;
+  BannerAdSize = ads.BannerAdSize;
+  TestIds = ads.TestIds;
+}
+
+const BANNER_ID = {
+  ios: "ca-app-pub-REPLACE_ME/REPLACE_ME_IOS_BANNER", // TODO: real ID at store submission
+  android: "ca-app-pub-REPLACE_ME/REPLACE_ME_ANDROID_BANNER",
 };
 
-// Use test IDs during development
-const USE_TEST_IDS = __DEV__;
+const adUnitId = __DEV__
+  ? TestIds?.ADAPTIVE_BANNER
+  : Platform.select(BANNER_ID) ?? BANNER_ID.android;
 
 export function AdBanner() {
   const isPremium = useGameState((s) => s.isPremium);
 
-  if (isPremium) return null;
+  if (Platform.OS === "web" || isPremium || !BannerAd) return null;
 
-  // TODO: Replace this placeholder with real BannerAd when SDK is installed
   return (
-    <View
-      style={{
-        height: 50,
-        backgroundColor: "rgba(42, 36, 30, 0.6)",
-        justifyContent: "center",
-        alignItems: "center",
-        borderTopWidth: 1,
-        borderTopColor: "rgba(212, 168, 67, 0.1)",
-      }}
-    >
-      {/* Uncomment when ready:
+    <View style={{ alignItems: "center", borderTopWidth: 1, borderTopColor: "rgba(212,168,67,0.1)" }}>
       <BannerAd
-        unitId={USE_TEST_IDS ? TestIds.BANNER : Platform.select(AD_UNIT_IDS.banner)}
+        unitId={adUnitId}
         size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
-        requestOptions={{
-          requestNonPersonalizedAdsOnly: false,
-          maxAdContentRating: MaxAdContentRating.G,
-        }}
+        requestOptions={{ requestNonPersonalizedAdsOnly: false }}
       />
-      */}
     </View>
   );
-}
-
-// Interstitial ad helper
-// Call this after card completion: if (shouldShowInterstitial()) showInterstitial();
-export async function showInterstitial() {
-  // TODO: Implement when SDK is installed
-  // const interstitial = InterstitialAd.createForAdRequest(
-  //   USE_TEST_IDS ? TestIds.INTERSTITIAL : Platform.select(AD_UNIT_IDS.interstitial),
-  //   { requestNonPersonalizedAdsOnly: false }
-  // );
-  // interstitial.load();
-  // interstitial.show();
 }
