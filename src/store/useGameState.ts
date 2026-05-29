@@ -4,7 +4,8 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { GameState, Card } from "../types/card";
-import { calculateStreak, isStreakBroken, INTERSTITIAL_INTERVAL } from "../utils/gamification";
+import { calculateStreak, isStreakBroken, INTERSTITIAL_INTERVAL, getDailyCard } from "../utils/gamification";
+import cardsData from "../data/cards.json";
 
 interface GameActions {
   completeCard: (card: Card) => void;
@@ -37,11 +38,15 @@ export const useGameState = create<GameState & GameActions>()(
         const state = get();
         if (state.completed.includes(card.id)) return;
 
+        const dailyCard = getDailyCard(cardsData as Card[]);
+        const isDailyChallenge = card.id === dailyCard.id;
+        const xpEarned = isDailyChallenge ? card.point_value * 2 : card.point_value;
+
         const today = new Date().toDateString();
         const newStreak = calculateStreak(state.streak, state.lastDate);
 
         set({
-          xp: state.xp + card.point_value,
+          xp: state.xp + xpEarned,
           completed: [...state.completed, card.id],
           streak: newStreak,
           lastDate: today,

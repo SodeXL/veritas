@@ -25,6 +25,7 @@ import { CardBack } from "../components/CardBack";
 import { TierTabs } from "../components/TierTabs";
 import { Card, ResponseTier } from "../types/card";
 import cardsData from "../data/cards.json";
+import { useRevenueCat } from "../hooks/useRevenueCat";
 
 // Conditionally import haptics only on native platforms
 let Haptics: any = null;
@@ -56,6 +57,7 @@ export const CardViewerScreen: React.FC = () => {
   const completeCard = useGameState((state) => state.completeCard);
   const toggleFavorite = useGameState((state) => state.toggleFavorite);
   const shouldShowInterstitial = useGameState((state) => state.shouldShowInterstitial);
+  const { purchaseRemoveAds } = useRevenueCat();
 
   const card = useMemo(() => cards.find((c) => c.id === cardId), [cardId]);
 
@@ -123,7 +125,7 @@ export const CardViewerScreen: React.FC = () => {
       const shouldShow = shouldShowInterstitial();
       if (shouldShow) {
         // Small delay so user sees the "MASTERED" confirmation before ad appears
-        setTimeout(() => showInterstitialIfNeeded(true, isPremium), 800);
+        setTimeout(() => showInterstitialIfNeeded(true, isPremium, purchaseRemoveAds), 800);
       }
     }
   };

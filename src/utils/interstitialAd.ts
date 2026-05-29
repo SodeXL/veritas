@@ -60,8 +60,13 @@ export function preloadInterstitial() {
  * Show the preloaded interstitial if the threshold has been met.
  * shouldShow: result of calling shouldShowInterstitial() from useGameState
  * isPremium: skip for premium users
+ * onUpgrade: callback to trigger the RevenueCat purchase flow (optional)
  */
-export function showInterstitialIfNeeded(shouldShow: boolean, isPremium: boolean) {
+export function showInterstitialIfNeeded(
+  shouldShow: boolean,
+  isPremium: boolean,
+  onUpgrade?: () => void
+) {
   if (Platform.OS === "web" || isPremium || !shouldShow) return;
   if (!isLoaded || !adInstance) return;
 
@@ -76,7 +81,7 @@ export function showInterstitialIfNeeded(shouldShow: boolean, isPremium: boolean
         "Remove ads forever for just $4.99 — one-time purchase, no subscription.",
         [
           { text: "Not Now", style: "cancel" },
-          { text: "Remove Ads", onPress: () => {} }, // User goes to Profile to purchase
+          { text: "Remove Ads", onPress: onUpgrade ?? (() => {}) },
         ]
       );
     }, 600);
