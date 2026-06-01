@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Paxello",
-    "slug": "veritas",
+    "slug": "paxello",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -14,14 +14,14 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.rumblehold.veritas",
+      "bundleIdentifier": "com.rumblehold.paxello",
       "icon": "./assets/icon.png",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
-      "package": "com.rumblehold.veritas",
+      "package": "com.rumblehold.paxello",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#12100D"

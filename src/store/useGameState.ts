@@ -93,7 +93,7 @@ export const useGameState = create<GameState & GameActions>()(
       },
     }),
     {
-      name: "veritas-game-state",
+      name: "paxello-game-state",
       storage: createJSONStorage(() => AsyncStorage),
     }
   )
