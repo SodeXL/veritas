@@ -77,7 +77,7 @@ export function showInterstitialIfNeeded(
   if (interstitialsShown % 3 === 0) {
     setTimeout(() => {
       Alert.alert(
-        "Enjoying Veritas?",
+        "Enjoying Paxello?",
         "Remove ads forever for just $4.99 — one-time purchase, no subscription.",
         [
           { text: "Not Now", style: "cancel" },

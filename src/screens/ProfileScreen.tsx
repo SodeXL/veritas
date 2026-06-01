@@ -167,7 +167,7 @@ export const ProfileScreen: React.FC = () => {
         )}
 
         {/* Remove Ads / Premium */}
-        <Text style={styles.sectionTitle}>Support Veritas</Text>
+        <Text style={styles.sectionTitle}>Support Paxello</Text>
         <RemoveAdsButton />
 
         {/* Reset Progress Button */}

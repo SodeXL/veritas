@@ -79,7 +79,7 @@ export function useRevenueCat() {
       setPremium(isActive);
 
       if (isActive) {
-        Alert.alert("Thank You!", "Ads have been removed. Enjoy Veritas ad-free!");
+        Alert.alert("Thank You!", "Ads have been removed. Enjoy Paxello ad-free!");
       }
     } catch (e: any) {
       if (e?.userCancelled) return; // user tapped cancel — not an error

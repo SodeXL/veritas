@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Veritas",
+    "name": "Paxello",
     "slug": "veritas",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -27,7 +27,8 @@
         "backgroundColor": "#12100D"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "versionCode": 2
     },
     "web": {
       "favicon": "./assets/favicon.png"
